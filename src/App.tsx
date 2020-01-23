@@ -1,7 +1,7 @@
 import Api from 'api'
 import { ResponseStatus } from 'api/types'
-import DaylightPhasesBar from 'components/DaylightPhasesBar'
 import moment from 'moment'
+import IndexPage from 'pages/IndexPage'
 import React from 'react'
 
 const cities = [
@@ -24,7 +24,7 @@ const info = {
 }
 
 const App = () => {
-  const now = moment()
+  const now = moment().format('YYYY-MM-DD')
 
   Promise.all(
     cities.map(city =>
@@ -53,11 +53,11 @@ const App = () => {
     })
 
   return (
-    <div>
-      <span>just a test</span>
-      {/* <DaylightPhasesBar {...info} /> */}
-      <DaylightPhasesBar info={info} />
-    </div>
+    <>
+      {/* <span>just a test</span> */}
+      {/* <DaylightPhasesBar info={info} /> */}
+      <IndexPage />
+    </>
   )
 }
 

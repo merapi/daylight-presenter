@@ -1,17 +1,16 @@
 import { API_URL } from 'config/consts'
-import { Moment } from 'moment'
 import { FetchSunriseSunsetInfoResponse } from './types'
 
 const sunriseSunset = {
   async getInfoForGeolocationAndDate(
     lat: number,
-    lng: number,
-    date?: Moment
+    lon: number,
+    date?: string
   ): Promise<FetchSunriseSunsetInfoResponse> {
     const params: { [key: string]: any } = {
       lat,
-      lng,
-      date: date ? date.format('YYYY-MM-DD') : undefined,
+      lng: lon,
+      date,
       formatted: 0
     }
     const query = Object.keys(params)
