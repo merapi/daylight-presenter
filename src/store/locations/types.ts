@@ -1,5 +1,4 @@
 import { SunriseSunsetInfo } from 'api/types'
-import { Moment } from 'moment'
 import { Location } from 'types'
 
 // Action consts
@@ -9,6 +8,7 @@ export enum LocationsActionsConsts {
   FETCH_LOCATION_INFO_ERROR = 'FETCH_LOCATION_INFO_ERROR',
   ADD_LOCATION = 'ADD_LOCATION',
   REMOVE_LOCATION = 'REMOVE_LOCATION',
+  UPDATE_LOCATION = 'UPDATE_LOCATION',
   SET_DATE = 'SET_DATE'
 }
 
@@ -40,13 +40,26 @@ export interface FetchLocationInfoError {
   error: string
 }
 
-// export interface RemoveLocation {
-//   type: LocationsActionsConsts.REMOVE_LOCATION
-// }
+export interface RemoveLocation {
+  type: LocationsActionsConsts.REMOVE_LOCATION
+  lat: number
+  lon: number
+}
+
+export interface UpdateLocation {
+  type: LocationsActionsConsts.UPDATE_LOCATION
+  lat: number
+  lon: number
+  data: {
+    name: string
+    lat: number
+    lon: number
+  }
+}
 
 export interface SetDate {
   type: LocationsActionsConsts.SET_DATE
-  date: Moment | null
+  date: string | null
 }
 
 export type LocationsActions =
@@ -54,7 +67,8 @@ export type LocationsActions =
   | FetchLocationInfoSuccess
   | FetchLocationInfoStarted
   | FetchLocationInfoError
-  // | RemoveLocation
+  | RemoveLocation
+  | UpdateLocation
   | SetDate
 
 // Data types
@@ -63,5 +77,6 @@ export type LocationsActions =
 // State type
 export interface LocationsState {
   readonly list: Location[]
-  readonly date: Moment | null
+  // readonly date: Moment | null
+  readonly date: string | null
 }

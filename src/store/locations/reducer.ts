@@ -52,7 +52,7 @@ export default (
           newState.list[existingIndex].infoByDate = {}
         }
 
-        const infoMoment = moment.utc(info.sunrise)
+        const infoMoment = moment.utc(info.solar_noon)
         const infoDate = infoMoment.format('YYYY-MM-DD')
         newState.list[existingIndex].isLoading = false
         newState.list[existingIndex].isError = null
@@ -89,6 +89,41 @@ export default (
 
         newState.list[existingIndex].isLoading = false
         newState.list[existingIndex].isError = error
+
+        return newState
+      }
+
+      return state
+    }
+
+    case LocationsActionsConsts.REMOVE_LOCATION: {
+      const { lat, lon } = action
+      const existingIndex = state.list.findIndex(location => location.lat === lat && location.lon === lon)
+      
+      if (existingIndex !== -1) {
+        let newState = { ...state, list: [...state.list] }
+
+        newState.list.splice(existingIndex, 1)
+
+        return newState
+      }
+
+      return state
+    }
+
+    case LocationsActionsConsts.UPDATE_LOCATION: {
+      const { lat, lon, data } = action
+      const existingIndex = state.list.findIndex(location => location.lat === lat && location.lon === lon)
+      
+      if (existingIndex !== -1) {
+        let newState = { ...state, list: [...state.list] }
+
+        newState.list[existingIndex] = { ...newState.list[existingIndex], ...data }
+
+        // Reset cache if coords are different
+        if (lat !== data.lat || lon !== data.lon) {
+          newState.list[existingIndex].infoByDate = {}
+        }
 
         return newState
       }

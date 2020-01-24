@@ -11,9 +11,11 @@ interface PhasesProps {
 export const Phases = styled(({ className, children }: PhasesProps) => {
   return <div className={className}>{children}</div>
 })`
-  background: #333;
+  background: #1f252d;
   position: relative;
-  height: 50px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 4px;
 `
 
 interface PhaseProps {
@@ -35,4 +37,8 @@ export const Phase = styled(({ className, children }: PhaseProps) => {
   align-items: center;
   width: ${({ end, start }) => ((end - start) / SECONDS_IN_A_DAY) * 100}%;
   left: ${({ start }) => (start / SECONDS_IN_A_DAY) * 100}%;
+  transition: all 1s;
+  color: #333;
+  padding: 5px;
+  font-size: 11px;
 `

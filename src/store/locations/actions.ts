@@ -1,5 +1,5 @@
 import { SunriseSunsetInfo } from 'api/types'
-import { AddLocation, FetchLocationInfoError, FetchLocationInfoStarted, FetchLocationInfoSuccess, LocationsActionsConsts } from './types'
+import { AddLocation, FetchLocationInfoError, FetchLocationInfoStarted, FetchLocationInfoSuccess, LocationsActionsConsts, RemoveLocation, UpdateLocation } from './types'
 
 export const addLocation = (
   name: string,
@@ -10,6 +10,30 @@ export const addLocation = (
   name,
   lat,
   lon
+})
+
+export const removeLocation = (
+  lat: number,
+  lon: number,
+): RemoveLocation => ({
+  type: LocationsActionsConsts.REMOVE_LOCATION,
+  lat,
+  lon
+})
+
+export const updateLocation = (
+  lat: number,
+  lon: number,
+  data: {
+    lat: number,
+    lon: number,
+    name: string
+  }
+): UpdateLocation => ({
+  type: LocationsActionsConsts.UPDATE_LOCATION,
+  lat,
+  lon,
+  data
 })
 
 export const fetchLocationInfoStarted = (lat: number, lon: number): FetchLocationInfoStarted => ({

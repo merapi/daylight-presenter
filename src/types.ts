@@ -1,7 +1,6 @@
 import { SunriseSunsetInfo } from 'api/types'
 
 export type SecondsSinceMidnight = number
-
 export interface Location {
   name: string
   lat: number

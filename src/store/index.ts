@@ -5,8 +5,16 @@ import rootSaga from './rootSaga'
 
 const sagaMiddleware = createSagaMiddleware()
 
+let persistedState = undefined
+try {
+  persistedState = JSON.parse(localStorage.getItem('store') || '')
+} catch (e) {
+  console.error(e)
+}
+
 const store = createStore(
   rootReducer,
+  persistedState,
   compose(
     applyMiddleware(sagaMiddleware),
     (window as any).__REDUX_DEVTOOLS_EXTENSION__
@@ -16,5 +24,13 @@ const store = createStore(
 )
 
 sagaMiddleware.run(rootSaga)
+
+store.subscribe(() => {
+  try {
+    localStorage.setItem('store', JSON.stringify(store.getState()))
+  } catch (e) {
+    console.error(e)
+  }
+})
 
 export default store

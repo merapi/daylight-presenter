@@ -12,37 +12,7 @@ interface Props {
 }
 
 const DaylightPhasesBar = ({ className, info }: Props) => {
-  const midnightMoment = moment.utc(info.sunrise).startOf('day')
-
-  const sunriseMoment = moment.utc(info.sunrise)
-  const sunsetMoment = moment.utc(info.sunset)
-  const daylightStart: SecondsSinceMidnight = sunriseMoment.diff(
-    midnightMoment,
-    'seconds'
-  )
-  const daylightEnd: SecondsSinceMidnight = daylightStart + info.day_length
-
-  const civilTwilightMoment = moment.utc(info.civil_twilight_begin)
-  const civilTwilightStart: SecondsSinceMidnight = civilTwilightMoment.diff(
-    midnightMoment,
-    'seconds'
-  )
-
-  const nauticalTwilightMoment = moment.utc(info.nautical_twilight_begin)
-  const nauticalTwilightStart: SecondsSinceMidnight = nauticalTwilightMoment.diff(
-    midnightMoment,
-    'seconds'
-  )
-
-  const astronomicalTwilightMoment = moment.utc(
-    info.astronomical_twilight_begin
-  )
-  const astronomicalTwilightStart: SecondsSinceMidnight = astronomicalTwilightMoment.diff(
-    midnightMoment,
-    'seconds'
-  )
-
-  console.log({ daylightStart, daylightEnd })
+  const midnightMoment = moment.utc(info.solar_noon).startOf('day')
 
   const phases = [
     'astronomical_twilight_begin',
@@ -55,16 +25,16 @@ const DaylightPhasesBar = ({ className, info }: Props) => {
     'astronomical_twilight_end'
   ]
   const phasesColors = [
-    'lightblue',
-    '#666',
-    '#888',
-    'yellow',
-    '#888',
-    '#666',
-    'lightgreen'
+    '#263e66',
+    '#4773bb',
+    '#87a4d3',
+    '#dbe9ff',
+    '#87a4d3',
+    '#4773bb',
+    '#263e66'
   ]
 
-  const MARK_EVERY_X_HOURS = 0.5
+  const MARK_EVERY_X_HOURS = 3
 
   return (
     <div className={className}>
@@ -89,58 +59,33 @@ const DaylightPhasesBar = ({ className, info }: Props) => {
               background={phasesColors[i]}
               start={phaseStart}
               end={phaseEnd}
+              key={key}
             >
-              <span>
-                {phaseMoment.format('HH:mm')}
-                <br />
-                {phaseEndMoment.format('HH:mm')}
-              </span>
-              {/* <span>{phaseMoment.format('HH:mm')}</span> */}
-              {/* {key === 'sunrise' && (
-                <span>{phaseEndMoment.format('HH:mm')}</span>
-              )} */}
+              {key === 'sunrise' && (
+                <>
+                  <span>{phaseMoment.format('HH:mm')}</span>
+                  <span>{phaseEndMoment.format('HH:mm')}</span>
+                </>
+              )}
             </Phase>
           )
         })}
-        {/* <Phase
-          background="navy"
-          start={astronomicalTwilightStart}
-          end={nauticalTwilightStart}
-        >
-          <span>{astronomicalTwilightMoment.format('HH:mm')}</span>
-        </Phase>
-        <Phase
-          background="blue"
-          start={nauticalTwilightStart}
-          end={civilTwilightStart}
-        >
-          <span>{nauticalTwilightMoment.format('HH:mm')}</span>
-        </Phase>
-        <Phase
-          background="lightblue"
-          start={civilTwilightStart}
-          end={daylightStart}
-        >
-          <span>{civilTwilightMoment.format('HH:mm')}</span>
-        </Phase>
-        <Phase background="yellow" start={daylightStart} end={daylightEnd}>
-          <span>{sunriseMoment.format('HH:mm')}</span>
-          <span>{sunsetMoment.format('HH:mm')}</span>
-        </Phase> */}
       </Phases>
       <TimeBar>
         {Array(24 / MARK_EVERY_X_HOURS + 1)
           .fill(0)
           .map((el, i) => i * MARK_EVERY_X_HOURS)
           .map(hour => (
-            <TimeMark time={hour * 60 * 60}>{hour}</TimeMark>
+            <TimeMark key={hour} time={hour * 60 * 60}>
+              {hour}
+            </TimeMark>
           ))}
       </TimeBar>
-      <pre>{JSON.stringify(info, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(info, null, 2)}</pre> */}
     </div>
   )
 }
 
 export default styled(DaylightPhasesBar)`
-  background: red;
+  width: 100%;
 `

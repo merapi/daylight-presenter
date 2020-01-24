@@ -1,44 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Location
 
-## Available Scripts
+```js
+const locations = [
+  { name: 'Kraków', lat: 50.064651, lon: 19.944981 },
+  { name: 'Tokio', lat: 39.758602, lon: -104.997437 },
+  { name: 'New York', lat: 55.755825, lon: 37.617298 }
+]
+```
 
-In the project directory, you can run:
+`Location` is uniquely identified by `lat` and `long` coordinates. That's why we need to pass them to each function dealing with `Location` entity, alternatively, we can choose to use UUID (generated on our side), then it will be possible to add two locations with the same coordinates and it will simplify `Location` operations (find by ID or ID as a key in store).
 
-### `yarn start`
+# Application flow
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+After you add a new `Location` (action type: `ADD_LOCATION`) saga will catch that and fetch sunrise/sunset information from API.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+# Caching
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Because sunrise/sunset data is immutable for given geolocation and date - we can cache it, that way going back and forth on calendar days will not trigger re-fetch. In a real-world app, this is either A) not needed B) number of cached items should be limited (memory limit on low-end phones).
