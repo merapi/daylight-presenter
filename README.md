@@ -1,3 +1,5 @@
+![presentation](./daylight.gif)
+
 # Location
 
 ```js
@@ -17,3 +19,5 @@ After you add a new `Location` (action type: `ADD_LOCATION`) saga will catch tha
 # Caching
 
 Because sunrise/sunset data is immutable for given geolocation and date - we can cache it, that way going back and forth on calendar days will not trigger re-fetch. In a real-world app, this is either A) not needed B) number of cached items should be limited (memory limit on low-end phones).
+
+With little effort we also have nice animations when we move between cached dates ;)

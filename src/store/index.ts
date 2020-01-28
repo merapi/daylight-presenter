@@ -9,7 +9,7 @@ let persistedState = undefined
 try {
   persistedState = JSON.parse(localStorage.getItem('store') || '')
 } catch (e) {
-  console.error(e)
+  // console.error(e)
 }
 
 const store = createStore(
@@ -29,7 +29,7 @@ store.subscribe(() => {
   try {
     localStorage.setItem('store', JSON.stringify(store.getState()))
   } catch (e) {
-    console.error(e)
+    // console.error(e)
   }
 })
 

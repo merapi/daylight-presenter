@@ -36,6 +36,7 @@ const IndexPage = () => {
   const date = useSelector(locationsSelectors.date)
   const [formData, setFormData] = useState<any>({})
   const [showForm, setShowForm] = useState(false)
+  const [showAddForm, setShowAddForm] = useState(false)
 
   const changeDate = (selectedDate: Date) => {
     dispatch(
@@ -61,7 +62,7 @@ const IndexPage = () => {
     dispatch(
       locationsActions.addLocation(formData.name, formData.lat, formData.lon)
     )
-    setShowForm(false)
+    setShowAddForm(false)
   }
 
   const updateLocation = (lat: number, lon: number) => (data: any) => {
@@ -103,8 +104,13 @@ const IndexPage = () => {
           <Popover
             content={<Form onSubmit={addNewLocation} />}
             position={Position.RIGHT_TOP}
+            isOpen={showAddForm}
           >
-            <Button icon="add" text="Add new location" />
+            <Button
+              icon="add"
+              text="Add new location"
+              onClick={() => setShowAddForm(true)}
+            />
           </Popover>
         </div>
         <div>
@@ -136,6 +142,7 @@ const IndexPage = () => {
         return (
           <Card
             key={`${lat}_${lon}`}
+            data-testid={`location-${lat}_${lon}`}
             style={{ marginBottom: 20, minHeight: 100 }}
             elevation={Elevation.TWO}
           >
@@ -184,7 +191,7 @@ const IndexPage = () => {
           </Card>
         )
       })}
-      <pre>{JSON.stringify(store, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(store, null, 2)}</pre> */}
     </div>
   )
 }

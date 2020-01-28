@@ -1,5 +1,13 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
+// @ts-ignore
 import '@testing-library/jest-dom/extend-expect'
+
+// for Blueprint
+if (global.document)
+  document.createRange = () => ({
+    setStart: () => {},
+    setEnd: () => {},
+    commonAncestorContainer: {
+      nodeName: "BODY",
+      ownerDocument: document,
+    },
+  })

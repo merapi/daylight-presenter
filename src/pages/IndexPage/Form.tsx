@@ -9,13 +9,11 @@ interface Props {
 }
 
 export default ({ data = {}, edit, onSubmit }: Props) => {
-  console.log({ data })
   const [form, setForm] = useState(data)
 
   const handleChange = (field: string) => (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
     const value = target.value
-    console.log({ field, value })
     setForm({ ...form, [field]: value })
   }
 
