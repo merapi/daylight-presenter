@@ -1,7 +1,6 @@
 import App from 'App'
 import React from 'react'
 import { cleanup, fireEvent, render, waitForElement } from 'tests/utils'
-import './mocks'
 
 describe('Index page', () => {
   afterEach(cleanup)
